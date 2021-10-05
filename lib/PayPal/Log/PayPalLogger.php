@@ -48,7 +48,8 @@ class PayPalLogger extends AbstractLogger
     public function __construct(/**
      * Logger Name. Generally corresponds to class name
      */
-    private $loggerName)
+    private $loggerName
+    )
     {
         $this->initialize();
     }
@@ -68,7 +69,7 @@ class PayPalLogger extends AbstractLogger
         }
     }
 
-    public function log($level, Stringable|string $message, array $context = []): void
+    public function log($level, $message, array $context = [])
     {
         if ($this->isLoggingEnabled) {
             // Checks if the message is at level below configured logging level
