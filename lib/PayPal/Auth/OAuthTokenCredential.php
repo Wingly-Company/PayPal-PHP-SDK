@@ -18,7 +18,6 @@ use PayPal\Security\Cipher;
  */
 class OAuthTokenCredential extends PayPalResourceModel
 {
-
     public static $CACHE_PATH = '/../../../var/auth.cache';
 
     /**
@@ -32,25 +31,6 @@ class OAuthTokenCredential extends PayPalResourceModel
      * @var int $expiryBufferTime
      */
     public static $expiryBufferTime = 120;
-
-    /**
-     * Client ID as obtained from the developer portal
-     *
-     * @var string $clientId
-     */
-    private $clientId;
-
-    /**
-     * Client secret as obtained from the developer portal
-     *
-     * @var string $clientSecret
-     */
-    private $clientSecret;
-
-    /**
-     * Target subject
-     */
-    private $targetSubject;
 
     /**
      * Generated Access Token
@@ -86,12 +66,18 @@ class OAuthTokenCredential extends PayPalResourceModel
      * @param string $clientId     client id obtained from the developer portal
      * @param string $clientSecret client secret obtained from the developer portal
      */
-    public function __construct($clientId, $clientSecret, $targetSubject = null)
-    {
-        $this->clientId = $clientId;
-        $this->clientSecret = $clientSecret;
+    public function __construct(/**
+     * Client ID as obtained from the developer portal
+     */
+    private $clientId, /**
+     * Client secret as obtained from the developer portal
+     */
+    private $clientSecret, /**
+     * Target subject
+     */
+    private $targetSubject = null
+    ) {
         $this->cipher = new Cipher($this->clientSecret);
-        $this->targetSubject = $targetSubject;
     }
 
     /**
@@ -141,7 +127,7 @@ class OAuthTokenCredential extends PayPalResourceModel
 
             // Case where we have an old unencrypted cache file
             if (!array_key_exists('accessTokenEncrypted', $token)) {
-                AuthorizationCache::push($config, $this->clientId, $this->encrypt($this->accessToken), $this->tokenCreateTime, $this->tokenExpiresIn);
+                AuthorizationCache::push($this->clientId, $this->encrypt($this->accessToken), $this->tokenCreateTime, $this->tokenExpiresIn, $config);
             } else {
                 $this->accessToken = $this->decrypt($token['accessTokenEncrypted']);
             }
@@ -164,7 +150,7 @@ class OAuthTokenCredential extends PayPalResourceModel
         if ($this->accessToken == null) {
             // Get a new one by making calls to API
             $this->updateAccessToken($config);
-            AuthorizationCache::push($config, $this->clientId, $this->encrypt($this->accessToken), $this->tokenCreateTime, $this->tokenExpiresIn);
+            AuthorizationCache::push($this->clientId, $this->encrypt($this->accessToken), $this->tokenCreateTime, $this->tokenExpiresIn, $config);
         }
 
         return $this->accessToken;

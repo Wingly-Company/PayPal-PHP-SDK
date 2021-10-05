@@ -40,10 +40,6 @@ class PayPalHttpConfig
 
     private $curlOptions;
 
-    private $url;
-
-    private $method;
-
     /***
      * Number of times to retry a failed HTTP call
      */
@@ -56,11 +52,9 @@ class PayPalHttpConfig
      * @param string $method HTTP method (GET, POST etc) defaults to POST
      * @param array $configs All Configurations
      */
-    public function __construct($url = null, $method = self::HTTP_POST, $configs = array())
+    public function __construct(private ?string $url = null, private $method = self::HTTP_POST, $configs = array())
     {
-        $this->url = $url;
-        $this->method = $method;
-        $this->curlOptions = $this->getHttpConstantsFromConfigs($configs, 'http.') + self::$defaultCurlOptions;
+        $this->curlOptions = $this->getHttpConstantsFromConfigs('http.', $configs) + self::$defaultCurlOptions;
         // Update the Cipher List based on OpenSSL or NSS settings
         $curl = curl_version();
         $sslVersion = isset($curl['ssl_version']) ? $curl['ssl_version'] : '';
@@ -126,8 +120,6 @@ class PayPalHttpConfig
 
     /**
      * Set Headers
-     *
-     * @param array $headers
      */
     public function setHeaders(array $headers = array())
     {
@@ -283,13 +275,13 @@ class PayPalHttpConfig
      * @param       $prefix
      * @return array
      */
-    public function getHttpConstantsFromConfigs($configs = array(), $prefix)
+    public function getHttpConstantsFromConfigs($prefix, $configs = array())
     {
         $arr = array();
         if ($prefix != null && is_array($configs)) {
             foreach ($configs as $k => $v) {
                 // Check if it startsWith
-                if (substr($k, 0, strlen($prefix)) === $prefix) {
+                if (str_starts_with($k, $prefix)) {
                     $newKey = ltrim($k, $prefix);
                     if (defined($newKey)) {
                         $arr[constant($newKey)] = $v;

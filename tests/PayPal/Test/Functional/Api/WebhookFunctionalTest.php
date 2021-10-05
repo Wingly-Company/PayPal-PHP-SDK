@@ -20,7 +20,6 @@ use PHPUnit\Framework\TestCase;
  */
 class WebhookFunctionalTest extends TestCase
 {
-
     public $operation;
 
     public $response;
@@ -29,7 +28,7 @@ class WebhookFunctionalTest extends TestCase
 
     public $apiContext;
 
-    public function setUp()
+    public function setUp(): void
     {
         $className = $this->getClassName();
         $testName = $this->getName();
@@ -48,7 +47,7 @@ class WebhookFunctionalTest extends TestCase
      */
     public function getClassName()
     {
-        return join('', array_slice(explode('\\', get_class($this)), -1));
+        return join('', array_slice(explode('\\', $this::class), -1));
     }
 
     public function testCreate()
@@ -62,7 +61,7 @@ class WebhookFunctionalTest extends TestCase
             $result = $obj->create($this->apiContext, $this->mockPayPalRestCall);
         } catch (PayPalConnectionException $ex) {
             $data = $ex->getData();
-            if (strpos($data, 'WEBHOOK_NUMBER_LIMIT_EXCEEDED') !== false) {
+            if (str_contains($data, 'WEBHOOK_NUMBER_LIMIT_EXCEEDED')) {
                 $this->deleteAll();
                 $result = $obj->create($this->apiContext, $this->mockPayPalRestCall);
             } else {

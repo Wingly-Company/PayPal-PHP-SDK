@@ -39,9 +39,9 @@ class ReflectionUtil
      */
     public static function getPropertyClass($class, $propertyName)
     {
-        if ($class == get_class(new PayPalModel())) {
+        if ($class == (new PayPalModel())::class) {
             // Make it generic if PayPalModel is used for generating this
-            return get_class(new PayPalModel());
+            return (new PayPalModel())::class;
         }
 
         // If the class doesn't exist, or the method doesn't exist, return null.
@@ -81,7 +81,7 @@ class ReflectionUtil
         }
 
         if (isset($param)) {
-            return substr($param, -strlen('[]'))==='[]';
+            return str_ends_with($param, '[]');
         } else {
             throw new PayPalConfigurationException("Getter function for '$propertyName' in '$class' class should have a proper return type.");
         }
@@ -97,7 +97,7 @@ class ReflectionUtil
      */
     public static function propertyAnnotations($class, $propertyName)
     {
-        $class = is_object($class) ? get_class($class) : $class;
+        $class = is_object($class) ? $class::class : $class;
         if (!class_exists('ReflectionProperty')) {
             throw new \RuntimeException("Property type of " . $class . "::{$propertyName} cannot be resolved");
         }

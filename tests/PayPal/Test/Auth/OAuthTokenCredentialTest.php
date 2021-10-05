@@ -36,7 +36,7 @@ class OAuthTokenCredentialTest extends TestCase
      */
     public function testInvalidCredentials()
     {
-        $this->setExpectedException('PayPal\Exception\PayPalConnectionException');
+        $this->expectException('PayPal\Exception\PayPalConnectionException');
         $cred = new OAuthTokenCredential('dummy', 'secret');
         $this->assertNull($cred->getAccessToken(PayPalConfigManager::getInstance()->getConfigHashmap()));
     }
@@ -51,7 +51,7 @@ class OAuthTokenCredentialTest extends TestCase
         $cred = new OAuthTokenCredential('clientId', 'clientSecret');
 
         //{"clientId":{"clientId":"clientId","accessToken":"accessToken","tokenCreateTime":1421204091,"tokenExpiresIn":288000000}}
-        AuthorizationCache::push($config, 'clientId', $cred->encrypt('accessToken'), 1421204091, 288000000);
+        AuthorizationCache::push('clientId', $cred->encrypt('accessToken'), 1421204091, 288000000, $config);
 
         $apiContext = new ApiContext($cred);
         $apiContext->setConfig($config);
@@ -111,12 +111,11 @@ class OAuthTokenCredentialTest extends TestCase
         $this->assertEquals('accessToken', $response);
     }
 
-    /**
-     * @expectedException \PayPal\Exception\PayPalConnectionException
-     * @expectedExceptionMessage Could not generate new Access token. Invalid response from server:
-     */
     public function testUpdateAccessTokenNullReturnUnitMock()
     {
+        $this->expectException('\PayPal\Exception\PayPalConnectionException');
+        $this->expectExceptionMessage('Could not generate new Access token. Invalid response from server:');
+
         $config = array(
             'mode' => 'sandbox'
         );

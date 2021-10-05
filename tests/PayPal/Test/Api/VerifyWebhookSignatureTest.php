@@ -69,17 +69,17 @@ class VerifyWebhookSignatureTest extends TestCase
         $this->assertEquals($obj->getWebhookEvent(), WebhookEventTest::getObject());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage CertUrl is not a fully qualified URL
-     */
     public function testUrlValidationForCertUrl()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('CertUrl is not a fully qualified URL');
+
         $obj = new VerifyWebhookSignature();
         $obj->setCertUrl(null);
     }
 
-    public function testToJsonToIncludeRequestBodyAsWebhookEvent() {
+    public function testToJsonToIncludeRequestBodyAsWebhookEvent()
+    {
         $obj = new VerifyWebhookSignature();
         $requestBody = '{"id":"123", "links": [], "something": {}}';
         $obj->setRequestBody($requestBody);
@@ -100,7 +100,7 @@ class VerifyWebhookSignatureTest extends TestCase
         $mockPPRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    VerifyWebhookSignatureResponseTest::getJson()
+                VerifyWebhookSignatureResponseTest::getJson()
             ));
 
         $result = $obj->post($mockApiContext, $mockPPRestCall);

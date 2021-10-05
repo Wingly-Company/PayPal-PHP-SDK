@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class UrlValidatorTest extends TestCase
 {
-
     public static function positiveProvider()
     {
         return array(
@@ -36,20 +35,12 @@ class UrlValidatorTest extends TestCase
 
     /**
      *
-     * @dataProvider positiveProvider
-     */
-    public function testValidate($input)
-    {
-        UrlValidator::validate($input, "Test Value");
-    }
-
-    /**
-     *
      * @dataProvider invalidProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testValidateException($input)
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         UrlValidator::validate($input, "Test Value");
     }
 }

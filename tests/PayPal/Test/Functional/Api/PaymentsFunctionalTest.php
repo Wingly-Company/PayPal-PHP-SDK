@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestCase;
  */
 class PaymentsFunctionalTest extends TestCase
 {
-
     public $operation;
 
     public $response;
@@ -24,7 +23,7 @@ class PaymentsFunctionalTest extends TestCase
 
     public $apiContext;
 
-    public function setUp()
+    public function setUp(): void
     {
         $className = $this->getClassName();
         $testName = $this->getName();
@@ -43,7 +42,7 @@ class PaymentsFunctionalTest extends TestCase
      */
     public function getClassName()
     {
-        return join('', array_slice(explode('\\', get_class($this)), -1));
+        return join('', array_slice(explode('\\', $this::class), -1));
     }
 
     public function testCreate()
@@ -107,17 +106,5 @@ class PaymentsFunctionalTest extends TestCase
         $this->assertEquals('completed', $result->getState());
         $this->assertEquals($sale->getId(), $result->getSaleId());
         $this->assertEquals($sale->getParentPayment(), $result->getParentPayment());
-    }
-
-    /**
-     * @depends testGet
-     * @param $payment Payment
-     * @return Payment
-     */
-    public function testExecute($payment)
-    {
-        if (Setup::$mode == 'sandbox') {
-            $this->markTestSkipped('Not executable on sandbox environment. Needs human interaction');
-        }
     }
 }

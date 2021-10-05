@@ -116,12 +116,11 @@ class InvoiceTest extends TestCase
         $this->assertEquals($obj->getAttachments(), FileAttachmentTest::getObject());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage LogoUrl is not a fully qualified URL
-     */
     public function testUrlValidationForLogoUrl()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('LogoUrl is not a fully qualified URL');
+
         $obj = new Invoice();
         $obj->setLogoUrl(null);
     }
@@ -138,7 +137,7 @@ class InvoiceTest extends TestCase
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    self::getJson()
+                self::getJson()
             ));
 
         $result = $obj->create($mockApiContext, $mockPayPalRestCall);
@@ -157,7 +156,7 @@ class InvoiceTest extends TestCase
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    InvoiceSearchResponseTest::getJson()
+                InvoiceSearchResponseTest::getJson()
             ));
         $search = SearchTest::getObject();
 
@@ -177,7 +176,7 @@ class InvoiceTest extends TestCase
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    true
+                true
             ));
 
         $result = $obj->send($mockApiContext, $mockPayPalRestCall);
@@ -196,7 +195,7 @@ class InvoiceTest extends TestCase
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    true
+                true
             ));
         $notification = NotificationTest::getObject();
 
@@ -216,7 +215,7 @@ class InvoiceTest extends TestCase
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    true
+                true
             ));
         $cancelNotification = CancelNotificationTest::getObject();
 
@@ -236,7 +235,7 @@ class InvoiceTest extends TestCase
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    true
+                true
             ));
         $paymentDetail = PaymentDetailTest::getObject();
 
@@ -256,7 +255,7 @@ class InvoiceTest extends TestCase
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    true
+                true
             ));
         $refundDetail = RefundDetailTest::getObject();
 
@@ -276,7 +275,7 @@ class InvoiceTest extends TestCase
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    InvoiceTest::getJson()
+                InvoiceTest::getJson()
             ));
 
         $result = $obj->get("invoiceId", $mockApiContext, $mockPayPalRestCall);
@@ -295,7 +294,7 @@ class InvoiceTest extends TestCase
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    InvoiceSearchResponseTest::getJson()
+                InvoiceSearchResponseTest::getJson()
             ));
 
         $result = $obj->getAll(array(), $mockApiContext, $mockPayPalRestCall);
@@ -371,7 +370,7 @@ class InvoiceTest extends TestCase
         $mockPPRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    InvoiceNumberTest::getJson()
+                InvoiceNumberTest::getJson()
             ));
 
         $result = $obj->generateNumber($mockApiContext, $mockPPRestCall);

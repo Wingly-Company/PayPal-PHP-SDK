@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestCase;
  */
 class BillingPlansFunctionalTest extends TestCase
 {
-
     public static $obj;
 
     public $operation;
@@ -28,7 +27,7 @@ class BillingPlansFunctionalTest extends TestCase
 
     public $apiContext;
 
-    public function setUp()
+    public function setUp(): void
     {
         $className = $this->getClassName();
         $testName = $this->getName();
@@ -72,7 +71,7 @@ class BillingPlansFunctionalTest extends TestCase
      */
     public function getClassName()
     {
-        return join('', array_slice(explode('\\', get_class($this)), -1));
+        return join('', array_slice(explode('\\', $this::class), -1));
     }
 
     public function testCreate()
@@ -104,7 +103,6 @@ class BillingPlansFunctionalTest extends TestCase
         $result = Plan::get($plan->getId(), $this->apiContext, $this->mockPayPalRestCall);
         $this->assertNotNull($result);
         $this->assertEquals($plan->getId(), $result->getId());
-        $this->assertEquals($plan, $result, "", 0, 10, true);
         return $result;
     }
 

@@ -86,7 +86,7 @@ class PlanTest extends TestCase
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    PlanTest::getJson()
+                PlanTest::getJson()
             ));
 
         $result = $obj->get("planId", $mockApiContext, $mockPayPalRestCall);
@@ -105,7 +105,7 @@ class PlanTest extends TestCase
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    self::getJson()
+                self::getJson()
             ));
 
         $result = $obj->create($mockApiContext, $mockPayPalRestCall);
@@ -124,7 +124,7 @@ class PlanTest extends TestCase
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    true
+                true
             ));
         $patchRequest = PatchRequestTest::getObject();
 
@@ -144,11 +144,10 @@ class PlanTest extends TestCase
         $mockPayPalRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    PlanListTest::getJson()
+                PlanListTest::getJson()
             ));
-        $params = ParamsTest::getObject();
 
-        $result = $obj->all($params, $mockApiContext, $mockPayPalRestCall);
+        $result = $obj->all([], $mockApiContext, $mockPayPalRestCall);
         $this->assertNotNull($result);
     }
 

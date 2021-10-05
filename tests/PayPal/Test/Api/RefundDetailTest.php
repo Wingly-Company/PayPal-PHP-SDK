@@ -18,7 +18,7 @@ class RefundDetailTest extends TestCase
      */
     public static function getJson()
     {
-        return '{"type":"TestSample","date":"TestSample","note":"TestSample","amount":' .CurrencyTest::getJson() . '}';
+        return '{"type":"TestSample","date":"TestSample","note":"TestSample","transaction_id":"TestSample","amount":' .CurrencyTest::getJson() . '}';
     }
 
     /**

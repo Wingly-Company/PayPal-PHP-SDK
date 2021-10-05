@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class NumericValidatorTest extends TestCase
 {
-
     public static function positiveProvider()
     {
         return array(
@@ -53,10 +52,11 @@ class NumericValidatorTest extends TestCase
     /**
      *
      * @dataProvider invalidProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testValidateException($input)
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         NumericValidator::validate($input, "Test Value");
     }
 }

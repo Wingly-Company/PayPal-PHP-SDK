@@ -5,6 +5,7 @@ namespace PayPal\Log;
 use PayPal\Core\PayPalConfigManager;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
+use Stringable;
 
 class PayPalLogger extends AbstractLogger
 {
@@ -44,16 +45,11 @@ class PayPalLogger extends AbstractLogger
      */
     private $isLoggingEnabled;
 
-    /**
+    public function __construct(/**
      * Logger Name. Generally corresponds to class name
-     *
-     * @var string
      */
-    private $loggerName;
-
-    public function __construct($className)
+    private $loggerName)
     {
-        $this->loggerName = $className;
         $this->initialize();
     }
 
@@ -72,7 +68,7 @@ class PayPalLogger extends AbstractLogger
         }
     }
 
-    public function log($level, $message, array $context = array())
+    public function log($level, Stringable|string $message, array $context = []): void
     {
         if ($this->isLoggingEnabled) {
             // Checks if the message is at level below configured logging level

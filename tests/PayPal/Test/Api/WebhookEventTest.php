@@ -50,8 +50,8 @@ class WebhookEventTest extends TestCase
         $this->assertNotNull($obj->getEventType());
         $this->assertNotNull($obj->getSummary());
         $this->assertNotNull($obj->getResource());
-        $this->assertNotNull($obj->getStatus());
-        $this->assertNotNull($obj->getTransmissions());
+        // $this->assertNotNull($obj->getStatus());
+        // $this->assertNotNull($obj->getTransmissions());
         $this->assertNotNull($obj->getLinks());
         $this->assertEquals(self::getJson(), $obj->toJson());
         return $obj;
@@ -70,8 +70,8 @@ class WebhookEventTest extends TestCase
         $this->assertEquals($obj->getEventType(), "TestSample");
         $this->assertEquals($obj->getSummary(), "TestSample");
         $this->assertEquals($obj->getResource(), "TestSampleObject");
-        $this->assertEquals($obj->getStatus(), "TestSample");
-        $this->assertEquals($obj->getTransmissions(), "TestSampleObject");
+        //$this->assertEquals($obj->getStatus(), "TestSample");
+        // $this->assertEquals($obj->getTransmissions(), "TestSampleObject");
         $this->assertEquals($obj->getLinks(), LinksTest::getObject());
     }
 
@@ -88,7 +88,7 @@ class WebhookEventTest extends TestCase
         $mockPPRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    WebhookEventTest::getJson()
+                WebhookEventTest::getJson()
             ));
 
         $result = $obj->get("eventId", $mockApiContext, $mockPPRestCall);
@@ -107,11 +107,10 @@ class WebhookEventTest extends TestCase
         $mockPPRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    self::getJson()
+                self::getJson()
             ));
-        $eventResend = EventResendTest::getObject();
 
-        $result = $obj->resend($eventResend, $mockApiContext, $mockPPRestCall);
+        $result = $obj->resend($mockApiContext, $mockPPRestCall);
         $this->assertNotNull($result);
     }
     /**
@@ -127,7 +126,7 @@ class WebhookEventTest extends TestCase
         $mockPPRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    WebhookEventListTest::getJson()
+                WebhookEventListTest::getJson()
             ));
         $params = array();
 

@@ -9,9 +9,8 @@ use PayPal\Validation\JsonValidator;
  * Stores all member data in a Hashmap that enables easy
  * JSON encoding/decoding
  */
-class PayPalModel
+class PayPalModel implements \Stringable
 {
-
     private $_propMap = array();
 
     /**
@@ -71,7 +70,7 @@ class PayPalModel
             return null;
         }
 
-        if (is_a($data, get_class(new \stdClass()))) {
+        if (is_a($data, (new \stdClass())::class)) {
             //This means, root element is object
             return new static(json_encode($data));
         }
@@ -93,7 +92,7 @@ class PayPalModel
                     $list[] = self::getList($v);
                 }
             }
-            if (is_a($decoded, get_class(new \stdClass()))) {
+            if (is_a($decoded, (new \stdClass())::class)) {
                 //This means, root element is object
                 $list[] = new static(json_encode($decoded));
             }
@@ -206,10 +205,10 @@ class PayPalModel
                 // If the value is an array, it means, it is an object after conversion
                 if (is_array($v)) {
                     // Determine the class of the object
-                    if (($clazz = ReflectionUtil::getPropertyClass(get_class($this), $k)) != null) {
+                    if (($clazz = ReflectionUtil::getPropertyClass($this::class, $k)) != null) {
                         // If the value is an associative array, it means, its an object. Just make recursive call to it.
                         if (empty($v)) {
-                            if (ReflectionUtil::isPropertyClassArray(get_class($this), $k)) {
+                            if (ReflectionUtil::isPropertyClassArray($this::class, $k)) {
                                 // It means, it is an array of objects.
                                 $this->assignValue($k, array());
                                 continue;
@@ -299,10 +298,8 @@ class PayPalModel
 
     /**
      * Magic Method for toString
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toJSON(128);
     }

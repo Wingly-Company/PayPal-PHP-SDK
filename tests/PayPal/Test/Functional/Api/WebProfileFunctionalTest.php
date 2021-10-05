@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestCase;
  */
 class WebProfileFunctionalTest extends TestCase
 {
-
     public $operation;
 
     public $response;
@@ -24,7 +23,7 @@ class WebProfileFunctionalTest extends TestCase
 
     public $apiContext;
 
-    public function setUp()
+    public function setUp(): void
     {
         $className = $this->getClassName();
         $testName = $this->getName();
@@ -44,7 +43,7 @@ class WebProfileFunctionalTest extends TestCase
      */
     public function getClassName()
     {
-        return join('', array_slice(explode('\\', get_class($this)), -1));
+        return join('', array_slice(explode('\\', $this::class), -1));
     }
 
     public function testCreate()

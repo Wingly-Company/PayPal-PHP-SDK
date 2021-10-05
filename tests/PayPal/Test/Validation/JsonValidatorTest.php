@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class JsonValidatorTest extends TestCase
 {
-
     public static function positiveProvider()
     {
         return array(
@@ -40,10 +39,11 @@ class JsonValidatorTest extends TestCase
     /**
      *
      * @dataProvider invalidProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidJson($input)
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         JsonValidator::validate($input);
     }
 

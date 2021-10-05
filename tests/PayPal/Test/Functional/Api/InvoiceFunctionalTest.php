@@ -18,7 +18,6 @@ use PHPUnit\Framework\TestCase;
  */
 class InvoiceFunctionalTest extends TestCase
 {
-
     public static $obj;
 
     public $operation;
@@ -29,7 +28,7 @@ class InvoiceFunctionalTest extends TestCase
 
     public $apiContext;
 
-    public function setUp()
+    public function setUp(): void
     {
         $className = $this->getClassName();
         $testName = $this->getName();
@@ -55,7 +54,7 @@ class InvoiceFunctionalTest extends TestCase
      */
     public function getClassName()
     {
-        return join('', array_slice(explode('\\', get_class($this)), -1));
+        return join('', array_slice(explode('\\', $this::class), -1));
     }
 
     public function testCreate()

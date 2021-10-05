@@ -16,33 +16,24 @@ class ApiContext
 {
 
     /**
-     * Unique request id to be used for this call
-     * The user can either generate one as per application
-     * needs or let the SDK generate one
-     *
-     * @var null|string $requestId
-     */
-    private $requestId;
-
-    /**
-     * This is a placeholder for holding credential for the request
-     * If the value is not set, it would get the value from @\PayPal\Core\PayPalCredentialManager
-     *
-     * @var \PayPal\Auth\OAuthTokenCredential
-     */
-    private $credential;
-
-
-    /**
      * Construct
      *
      * @param \PayPal\Auth\OAuthTokenCredential $credential
-     * @param string|null                       $requestId
      */
-    public function __construct($credential = null, $requestId = null)
+    public function __construct(
+        /**
+         * This is a placeholder for holding credential for the request
+         * If the value is not set, it would get the value from @\PayPal\Core\PayPalCredentialManager
+         */
+        private $credential = null,
+        /**
+         * Unique request id to be used for this call
+         * The user can either generate one as per application
+         * needs or let the SDK generate one
+         */
+        private ?string $requestId = null
+    )
     {
-        $this->requestId = $requestId;
-        $this->credential = $credential;
     }
 
     /**
@@ -72,7 +63,7 @@ class ApiContext
     public function addRequestHeader($name, $value)
     {
         // Determine if the name already has a 'http.headers' prefix. If not, add one.
-        if (!(substr($name, 0, strlen('http.headers')) === 'http.headers')) {
+        if (!(str_starts_with($name, 'http.headers'))) {
             $name = 'http.headers.' . $name;
         }
         PayPalConfigManager::getInstance()->addConfigs(array($name => $value));

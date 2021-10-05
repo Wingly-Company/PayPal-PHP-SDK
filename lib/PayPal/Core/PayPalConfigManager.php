@@ -119,9 +119,8 @@ class PayPalConfigManager
      * all configured accounts
      *
      * @param string|null $userId
-     * @return array|string
      */
-    public function getIniPrefix($userId = null)
+    public function getIniPrefix($userId = null): array|string
     {
         if ($userId == null) {
             $arr = array();

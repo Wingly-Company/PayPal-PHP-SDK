@@ -63,12 +63,11 @@ class WebhookTest extends TestCase
         $this->assertEquals($obj->getLinks(), LinksTest::getObject());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Url is not a fully qualified URL
-     */
     public function testUrlValidationForUrl()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Url is not a fully qualified URL');
+
         $obj = new Webhook();
         $obj->setUrl(null);
     }
@@ -85,7 +84,7 @@ class WebhookTest extends TestCase
         $mockPPRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    self::getJson()
+                self::getJson()
             ));
 
         $result = $obj->create($mockApiContext, $mockPPRestCall);
@@ -104,7 +103,7 @@ class WebhookTest extends TestCase
         $mockPPRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    WebhookTest::getJson()
+                WebhookTest::getJson()
             ));
 
         $result = $obj->get("webhookId", $mockApiContext, $mockPPRestCall);
@@ -123,7 +122,7 @@ class WebhookTest extends TestCase
         $mockPPRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    WebhookListTest::getJson()
+                WebhookListTest::getJson()
             ));
         $params = array();
 
@@ -143,7 +142,7 @@ class WebhookTest extends TestCase
         $mockPPRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    self::getJson()
+                self::getJson()
             ));
         $patchRequest = PatchRequestTest::getObject();
 
@@ -163,7 +162,7 @@ class WebhookTest extends TestCase
         $mockPPRestCall->expects($this->any())
             ->method('execute')
             ->will($this->returnValue(
-                    true
+                true
             ));
 
         $result = $obj->delete($mockApiContext, $mockPPRestCall);

@@ -118,10 +118,8 @@ class PayPalCredentialManager
     /**
      * Sets credential object for users
      *
-     * @param \PayPal\Auth\OAuthTokenCredential $credential
      * @param string|null   $userId  User Id associated with the account
      * @param bool $default If set, it would make it as a default credential for all requests
-     *
      * @return $this
      */
     public function setCredentialObject(OAuthTokenCredential $credential, $userId = null, $default = true)
